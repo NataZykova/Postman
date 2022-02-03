@@ -1,24 +1,86 @@
-26_Channel_QA, [25.01.2022 12:17]
-[В ответ на 26_Channel_QA]
+
 HW_2 Postman
 
 
 http://162.55.220.72:5005/first
 1. Отправить запрос.
 2. Статус код 200
+
+
+pm.test("Ckeck status code", function (){
+    pm.response.to.have.status(200);
+});
+
 3. Проверить, что в body приходит правильный string.
+
+pm.test("Body matches string", function () {
+    pm.expect(pm.response.text()).to.include("This is the first responce from server!");
+});
+
+
+
 
 http://162.55.220.72:5005/user_info_3
 1. Отправить запрос.
 2. Статус код 200
+
+pm.test("Ckeck status code", function (){
+    pm.response.to.have.status(200);
+});
+
 3. Спарсить response body в json.
 4. Проверить, что name в ответе равно name s request (name вбить руками.)
+
+var nameData= pm.response.json();
+
+
+pm.test("Check name", function(){
+    pm.expect(nameData.name).to.eql("Tasha")
+
+});
+
 5. Проверить, что age в ответе равно age s request (age вбить руками.)
+var ageData=pm.response.json()
+
+pm.test("Check age", function(){
+    pm.expect(ageData.age).to.eql("39")
+});
+
+
 6. Проверить, что salary в ответе равно salary s request (salary вбить руками.)
+var salaryData=pm.response.json()
+var sal=+salaryData
+pm.test("Check salary", function(){
+    pm.expect(salaryData.salary).to.eql(1600)
+});
+
 7. Спарсить request.
+
 8. Проверить, что name в ответе равно name s request (name забрать из request.)
+
+var reqBody = request.data;
+var respBody=pm.response.json()
+pm.test("Check name in response and request", function(){
+pm.expect(respBody.name)==reqBody.name
+});
+
+console.log("Resp=request"+ reqBody.name)
+
+
 9. Проверить, что age в ответе равно age s request (age забрать из request.)
+
+var reqAge=request.data
+var respBody=pm.response.json()
+
+pm.test("Compare age in respon and req", function(){
+    pm.expect(respBody.age)==reqAge.age
+});
+
+console.log("Resp=request"+ reqBody.age)
+
+
 10. Проверить, что salary в ответе равно salary s request (salary забрать из request.)
+
 11. Вывести в консоль параметр family из response.
 12. Проверить что u_salary_1_5_year в ответе равно salary*4 (salary забрать из request)
 

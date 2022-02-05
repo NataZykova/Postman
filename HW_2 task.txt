@@ -183,31 +183,110 @@ console.log("Dog age ",jsonData.family.pets.dog.age )
 
 http://162.55.220.72:5005/object_info_4
 1. Отправить запрос.
-2. Статус код 200
+//1.Check status code -Проверить статус код
+pm.test("Status code is 200", function () {
+    pm.response.to.have.status(200);
+});
+
+//2.Parse response body to json-Спарсить response body в json.
+var jsonData=pm.response.json()
+
+//3.Parse request-Спарсить request.
+var request=pm.request.url.query.toObject()
+
+//4.Check that name in response is eql to name's request-Проверить, что name в ответе равно name s request (name забрать из request.)
+
+pm.test("Check that name in response is eql to name's request", function(){
+    pm.expect(jsonData.name).is.eql(request.name)
+});
+console.log("Check that name in response is eql to name's request" , jsonData.name, " ", request.name)
+
+//5.Check that age in response is eql to the age in request-Проверить, что age в ответе равно age из request (age забрать из request.)
+var newrequest=+request.age
+pm.test("Check that age in response is eql to the age", function(){
+    pm.expect(jsonData.age).is.eql(newrequest)
+
+});
+
+console.log("Check that age in response is eql to the age" , jsonData.age, " ", newrequest)
+
+//6.Print out in console param salary from request-Вывести в консоль параметр salary из request.
+
+console.log("Salary from request=" ,request.salary)
+
+//7.print out in console param salary from resoinse- Вывести в консоль параметр salary из response
+
+console.log("Salary from response=", jsonData.salary)
+
+//8.Print out in console zero element of salary's param from response-Вывести в консоль 0-й элемент параметра salary параметр salary из response
+
+console.log("Zero elem of salary=",jsonData.salary[0])
+
+//9.Print out in console first element of salary's param from response-Вывести в консоль 1-й элемент параметра salary параметр salary из response
+
+console.log("first elem of salary=", jsonData.salary[1])
+
+//10.Print out in console second element of salary's param from response-Вывести в консоль 2-й элемент параметра salary параметр salary из response
+
+console.log("Second elem of salary=", jsonData.salary[2])
+
+
+//11.Check that zero element of salary param is eql to salary's from request-Проверить, что 0-й элемент параметра salary равен salary из request (salary забрать из request.)
+var newsalary=+request.salary
+pm.test("Check that zero element of salary param is eql to salary's from request", function(){
+    pm.expect(jsonData.salary[0]).is.eql(newsalary)
+
+
+});
+
+console.log("Check that zero element of salary param is eql to salary's from request", jsonData.salary[0], newsalary)
+
+
+//12.Check that first element of salary param is eql to salary*2 from request-Проверить, что 1-й элемент параметра salary равен salary*2 из request (salary забрать из request.)
+
+var salary_2=+jsonData.salary[1]
+pm.test("Check that first element of salary param is eql to salary*2 from request", function(){
+    pm.expect(salary_2).is.eql(request.salary*2)
+
+});
+
+console.log("Fisrt elem of salary is eql salary*2", salary_2, request.salary*2)
+
+//13.Check that second param of salary is eql to salary*3 from request-Проверить, что 2-й элемент параметра salary равен salary*3 из request (salary забрать из request.)
+
+
+var salary_3=+jsonData.salary[2]
+pm.test("Check that second param of salary is eql to salary*3 from request", function(){
+    pm.expect(salary_3).is.eql(request.salary*3)
+});
+console.log("Second elem of salary is eql salary*3", salary_3, request.salary*3)
+
+//14.Create in enviroment var name-Создать в окружении переменную name
+//15.Create in enviroment var age-Создать в окружении переменную age
+//16.Create in enviroment var salary-Создать в окружении переменную salary
+
+//17.Set to envir var name-Передать в окружение переменную name
+pm.environment.set("name", jsonData.name);
+
+console.log("Name from envir=", environment.name)
+
+//18.Set to envir var age-Передать в окружение переменную age
+pm.environment.set("age",jsonData.age);
+
+console.log("Age from envir=", environment.age)
+
+//19.Set to envir var salary-Передать в окружение переменную salary
+
+pm.environment.set("salary", jsonData.salary[0])
+
+console.log("Salary from envir=", environment.salary)
+
+//20.Написать цикл который выведет в консоль по порядку элементы списка из параметра salary.
 
 
 
-3. Спарсить response body в json.
-4. Спарсить request.
-5. Проверить, что name в ответе равно name s request (name забрать из request.)
-6. Проверить, что age в ответе равно age из request (age забрать из request.)
-7. Вывести в консоль параметр salary из request.
-8. Вывести в консоль параметр salary из response.
-9. Вывести в консоль 0-й элемент параметра salary из response.
-10. Вывести в консоль 1-й элемент параметра salary параметр salary из response.
-11. Вывести в консоль 2-й элемент параметра salary параметр salary из response.
-12. Проверить, что 0-й элемент параметра salary равен salary из request (salary забрать из request.)
-13. Проверить, что 1-й элемент параметра salary равен salary*2 из request (salary забрать из request.)
-14. Проверить, что 2-й элемент параметра salary равен salary*3 из request (salary забрать из request.)
-15. Создать в окружении переменную name
-16. Создать в окружении переменную age
-17. Создать в окружении переменную salary
-18. Передать в окружение переменную name
-19. Передать в окружение переменную age
-20. Передать в окружение переменную salary
-21. Написать цикл который выведет в консоль по порядку элементы списка из параметра salary.
 
-26_Channel_QA, [25.01.2022 14:50]
+
 http://162.55.220.72:5005/user_info_2
 1. Вставить параметр salary из окружения в request
 2. Вставить параметр age из окружения в age
